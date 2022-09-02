@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "UploadNews";
+}
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">新闻管理系统</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">主菜单</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:location.href='/News/Index';">首页</a></dd>
+                        <dd><a href="javascript:location.href='/News/UploadNews';">发布新闻</a></dd>
+                        <dd><a href="javascript:location.href='/News/UserManagement';">用户管理</a></dd>
+                        <dd><a href="">退出系统</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <br><br>
+            编辑新闻
+                <div class="layui-form" action="" id="newsform">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">作者</label>
+                        <div class="layui-input-block">
+                            <input readonly type="text"  required lay-verify="required" autocomplete="off" class="layui-input" value="@Session["username"]">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input" id="headline">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">文本域</label>
+                        <div class="layui-input-block">
+                            <textarea name="desc" class="layui-textarea" id="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="formDemo" id="btn" type="button">立即提交</button>
+                        </div>
+                    </div>
+
+
+                </div>
+        </div>
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            底部固定区域
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $("#btn").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/News/UploadNewsForm",
+                    data: {
+                        "title": $("#headline").val(),
+                        "text": $("#description").val(),
+                    },
+                success: function (msg) {
+                        if (msg == "上传成功") {
+                            location.href="/News/Index"
+                        }
+                        else {
+                            alert("上传失败")
+                        }
+                    }
+                })
+            })
+        })
+
+    </script>
+
